@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+Posts
+{% endblock %} 
+
+{% block css_files %}
+  <link rel="stylesheet" href="{% static "blog/post.css" %}" />
+  <link rel="stylesheet" href="{% static "blog/all-posts.css" %}" />
+{% endblock %}
+
+
+
+{% block content %}
+
+<div class="sidenav">
+  <a href="{% url "posts-filter" genre='Action' %}">Action/Adventure</a>
+  <a href="{% url "posts-filter" genre='Detective' %}">Detective</a>
+  <a href="{% url "posts-filter" genre='Drama' %}">Drama</a>
+  <a href="{% url "posts-filter" genre='Horror' %}">Horror</a>
+  <a href="{% url "posts-filter" genre='Humor' %}">Humor</a>
+  <a href="{% url "posts-filter" genre='Romance' %}">Romance</a>
+  <a href="{% url "posts-filter" genre='Science Fiction' %}">Science Fiction (Sci-Fi)</a>
+  <a href="{% url "posts-filter" genre='Thriller' %}">Suspense/Thriller</a>
+  <a href="{% url "posts-filter" genre='Biography' %}">Biography</a>
+  <a href="{% url "posts-filter" genre='Poetry' %}">Poetry</a>
+</div>
+
+<section id="all-posts">
+  <h2>{% if tag %}
+  Posts with tag '{{tag}}' 
+  {% elif genre %}
+  {{genre}} Posts
+  {% else  %}
+  All Posts</h2>
+  {% endif  %}
+ <div class="infinite-container">
+    {% for post in all_posts %}
+    <ul>
+      <li><div class="infinite-item">{% include "blog/includes/post.html" %}</div></li>
+    </ul>
+    {% endfor %}
+  </div>
+
+{% if page_obj.has_next %}
+    <a class="infinite-more-link" href="?page={{ page_obj.next_page_number }}">More</a>
+  {% else %} <a class="infinite-more-link" href="?page=1">Begining</a>
+  {% endif %}
+
+  <script>
+    var infinite = new Waypoint.Infinite({
+      element: $('.infinite-container')[0],
+      onBeforePageLoad: function () {
+        $('.loading').show();
+      },
+      onAfterPageLoad: function ($items) {
+        $('.loading').hide();
+      }
+    });
+  </script>
+{% endblock %}
+
+  

@@ -1,0 +1,94 @@
+{% extends "base.html" %} 
+{% load static %} 
+
+{% block title %} 
+{{ post.title }}
+{% endblock %} 
+
+{% block css_files %} 
+<link rel="stylesheet" href="{% static "blog/post-detail.css" %}" />
+<link rel="stylesheet" href="{% static "blog/buttons.css" %}" />
+{% endblock %} 
+
+{% block content %}
+
+{% if comment_form.errors %}
+  <div id="alert">
+    <h2>Saving the comment failed!</h2>
+    <p>Please check the comment form below the post and fix your erros.</p>
+    <a href="#comment-form">Fix!</a>
+  </div>
+{% endif %}
+
+<section id="summary">
+  <h2>{{ post.title }}</h2>
+  <p>{{ post.genre }}</p>
+  <div>
+    {% for tag in post_tags %}
+    <a href="{% url "tag-filter" tag.slug %}">
+      <span class="tag">{{ tag.name }}</span></a>
+    {% endfor %}
+  </div>
+  <div id="read-later">
+    {% if post.author.user != request.user %}
+      <form action="{% url "read-later" %}" method="POST">
+        {% csrf_token %}
+        <input type="hidden" value="{{ post.id }}" name="post_id">
+        <button>
+          {% if saved_for_later %}
+            Remove from "Read Later" List
+          {% else %}
+            Read Later
+          {% endif %}
+        </button>
+       </form>
+       {% else %}
+            <div >
+            <p><a href="{% url "post_edit" post.slug %}" class="button button1">Update post</a>
+            <a href="{% url 'post_delete' post.slug %}" class="button button1"> Delete Post</a>
+            </div>
+      {% endif %}
+  </div>
+  <article>
+    <img src="{{ post.image.url }}" alt="{{ post.title }}" />
+    <address>By <a href="mailto:{{ post.author.email_address }}">{{ post.author.full_name }}</a></address>
+    <div>Last updated on <time>{{ post.date|date:"d M Y" }}</time></div>
+  </article>
+</section>
+
+<main>
+  {{ post.content|linebreaks }}
+</main>
+
+<section id="comments">
+  <ul>
+    {% for comment in comments %}
+      <li>
+        <h2>{{ comment.user_name }}</h2>
+        <p>{{ comment.text|linebreaks }}</p>
+        <h3><p>{{ comment.created|date:"d M Y" }}</p></h3>
+      </li>
+    {% endfor %}
+  </ul>
+</section>
+
+<section id="comment-form">
+  {% if request.user.is_authenticated %}
+  <h2>Your Comment</h2>
+  <form action="{% url "post-detail-page" post.slug %}" method="POST">
+    {% csrf_token %}
+    {% for form_field in comment_form %}
+      <div class="form-control {% if form_field.errors %}invalid{% endif %}">
+        {{ form_field.label_tag }}
+        {{ form_field }}
+        {{ form_field.errors }}
+      </div>
+    {% endfor %}
+    <button name='comment_button'>Save Comment</button>
+  </form>
+  {% else %}
+  <div class='comment_mess'>To write a comment please <a href="{% url "login" %}">login</a> or
+        <a href="{% url "register" %}">Register</a></div>
+        {% endif  %}
+</section>
+{% endblock %}

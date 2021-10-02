@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Dashboard{% endblock %}
+
+{% block css_files %}
+    <link rel="stylesheet" href="{% static "post.css" %}" />
+{% endblock %}
+
+{% block content %}
+    <h1>Account</h1>
+    <p>Welcome to your account info, {{ user.get_username }}.
+        Here you can see all your written posts:</p>
+    <ul>
+    {% for post in posts %}
+      <li>
+  <article class="post">
+    <a href="{% url "post-detail-page" post.slug %}">
+      <img src="{{ post.image.url }}" alt="{{ post.title }}"
+      />
+      <div class="post__content">
+        <h3>{{ post.title }}</h3>
+      </div>
+    </a>
+  </article>
+</li>
+    {% endfor %}
+  </ul>
+{% endblock %}
