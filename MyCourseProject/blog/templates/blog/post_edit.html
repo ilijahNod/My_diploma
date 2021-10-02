@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% load static %}  
+
+{% block css_files %} 
+<link rel="stylesheet" href="{% static "blog/post_new.css" %}" /> 
+{% endblock %} 
+
+{% block content %}
+{% if post.author.user != request.user %}
+    <div div class="post-create">
+  <h2>We're sorry!</h2>
+  <p>But we couldn't find that page!</p></div>
+{% else %}
+    <div class="post-create">
+      <h1>Редактировать Статью</h1>
+      <form action="" method="post" enctype="multipart/form-data">{% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" value="Update" /> />
+      </form>
+    </dif>
+{% endif %}
+{% endblock content %}
