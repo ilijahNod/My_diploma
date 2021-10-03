@@ -5,12 +5,17 @@ from .forms import LoginForm
 from django.contrib.auth.decorators import login_required
 from .forms import LoginForm, UserRegistrationForm
 from blog.models import Post, Author
+from django.views.generic.edit import UpdateView
+from django.urls import reverse_lazy
+
+
 def user_login(request):
     if request.method == 'POST':
         form = LoginForm(request.POST)
         if form.is_valid():
             cd = form.cleaned_data
-            user = authenticate(username=cd['username'], password=cd['password'])
+            user = authenticate(
+                username=cd['username'], password=cd['password'])
             if user is not None:
                 if user.is_active:
                     login(request, user)
@@ -24,12 +29,6 @@ def user_login(request):
     return render(request, 'account/login.html', {'form': form})
 
 
-@login_required
-def dashboard(request):
-    posts = Post.objects.filter(author=(Author.objects.get(user=request.user)))
-    return render(request, 'account/dashboard.html', {'section': 'dashboard', 'posts': posts})
-
-
 def register(request):
     if request.method == 'POST':
         user_form = UserRegistrationForm(request.POST)
@@ -41,3 +40,17 @@ def register(request):
     else:
         user_form = UserRegistrationForm()
     return render(request, 'account/register.html', {'user_form': user_form})
+
+
+@login_required
+def dashboard(request):
+    posts = Post.objects.filter(author=(Author.objects.get(user=request.user)))
+    #author= Author.objects.get(user=request.user)#
+    return render(request, 'account/dashboard.html', {'section': 'dashboard', 'posts': posts, })
+
+
+'''class AuthorUpdateView(UpdateView):
+    model = Author
+    template_name = 'account/author_edit.html'
+    fields = ['bio', 'photo']
+    success_url = reverse_lazy('dashboard')'''

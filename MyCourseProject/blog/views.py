@@ -9,6 +9,7 @@ from .forms import CommentForm, PostCreateForm
 from django.utils.text import slugify
 from taggit.models import Tag
 
+
 class StartingPageView(ListView):
     template_name = "blog/index.html"
     model = Post
@@ -34,9 +35,9 @@ class SinglePostView(View):
     def is_stored_post(self, request, post_id):
         stored_posts = request.session.get("stored_posts")
         if stored_posts is not None:
-          is_saved_for_later = post_id in stored_posts
+            is_saved_for_later = post_id in stored_posts
         else:
-          is_saved_for_later = False
+            is_saved_for_later = False
 
         return is_saved_for_later
 
@@ -56,7 +57,6 @@ class SinglePostView(View):
         comment_form = CommentForm(request.POST)
         post = Post.objects.get(slug=slug)
 
-        
         if 'comment_button' in request.POST:
             if comment_form.is_valid():
                 comment = comment_form.save(commit=False)
@@ -74,8 +74,6 @@ class SinglePostView(View):
             "saved_for_later": self.is_stored_post(request, post.id)
         }
         return render(request, "blog/post-detail.html", context)
-    
-
 
 
 class ReadLaterView(View):
@@ -88,9 +86,9 @@ class ReadLaterView(View):
             context["posts"] = []
             context["has_posts"] = False
         else:
-          posts = Post.objects.filter(id__in=stored_posts)
-          context["posts"] = posts
-          context["has_posts"] = True
+            posts = Post.objects.filter(id__in=stored_posts)
+            context["posts"] = posts
+            context["has_posts"] = True
 
         return render(request, "blog/stored-posts.html", context)
 
@@ -98,25 +96,24 @@ class ReadLaterView(View):
         stored_posts = request.session.get("stored_posts")
 
         if stored_posts is None:
-          stored_posts = []
+            stored_posts = []
 
         post_id = int(request.POST["post_id"])
 
         if post_id not in stored_posts:
-          stored_posts.append(post_id)
+            stored_posts.append(post_id)
         else:
-          stored_posts.remove(post_id)
+            stored_posts.remove(post_id)
 
         request.session["stored_posts"] = stored_posts
 
-        return HttpResponseRedirect("/")
+        return HttpResponseRedirect("stored_posts")
 
-  
+
 class BlogCreateView(CreateView):
     model = Post
     template_name = 'blog/post_new.html'
-    fields = ['image', 'title', 'excerpt', 'content', 'genre', 'tags' ]
-
+    fields = ['image', 'title', 'excerpt', 'content', 'genre', 'tags']
 
     def post(self, request, *args, **kwargs):
         form = PostCreateForm(request.POST, request.FILES)
@@ -128,13 +125,14 @@ class BlogCreateView(CreateView):
 
         return HttpResponseRedirect(reverse("dashboard"))
 
-class BlogUpdateView(UpdateView): 
+
+class BlogUpdateView(UpdateView):
     model = Post
     template_name = 'blog/post_edit.html'
     fields = ['excerpt', 'content', 'genre', 'tags']
 
 
-class BlogDeleteView(DeleteView): 
+class BlogDeleteView(DeleteView):
     model = Post
     template_name = 'blog/post_delete.html'
     success_url = reverse_lazy('dashboard')
@@ -147,11 +145,10 @@ class AllPostsFilterView(ListView):
     paginate_by = 10
     genre = None
 
-
     def get_queryset(self):
         self.genre = get_object_or_404(Genre, genre=self.kwargs['genre'])
         return Post.objects.filter(genre=self.genre)
-    
+
     def get_context_data(self, **kwargs):
         data = super().get_context_data(**kwargs)
         data['genre'] = self.genre
@@ -168,9 +165,10 @@ class TagFilterView(ListView):
     def get_queryset(self):
         self.tag = get_object_or_404(Tag, slug=self.kwargs['tag_slug'])
         return Post.objects.filter(tags__in=[self.tag])
-    
-    
+
     def get_context_data(self, **kwargs):
         data = super().get_context_data(**kwargs)
         data['tag'] = self.tag
         return data
+
+
