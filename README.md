@@ -23,4 +23,11 @@ Django-Blog включает в себя:
         Фильтрация по тегам.
         Написать сообщение автору.
 
+Как запустить проект у себя?
+
+    git clone https://github.com/ilijahNod/My_diploma
+    pip install -r requirements.txt
+    cd My_diploma/MyCourseProject
+    sudo docker-compose build
+    sudo docker compose up
 
