@@ -1,7 +1,10 @@
 # My_diploma
 Z49-TMS
 Django-Blog website
+
 This is a django-based Literature Blog
+
+
 Django-Blog включает в себя:
 
     Регистрация, вход и выход из системы.
