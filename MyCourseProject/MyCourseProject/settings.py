@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-(4w52(h3d&4uv@!&+p&6tg#&$lb!w$b(rd!=z$r5x9-=2d^9(e
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['0.0.0.0']
 
 
 # Application definition
@@ -84,10 +84,10 @@ WSGI_APPLICATION = 'MyCourseProject.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-'NAME': 'django_db',
+'NAME': 'postgres',
 'USER' : 'postgres',
-'PASSWORD' : '12345',
-'HOST' : '127.0.0.1',
+'PASSWORD' : 'postgres',
+'HOST' : 'db',
 'PORT' : '5432',
     }
 }
@@ -130,7 +130,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = '/static/'
-
+STATIC_ROOT = BASE_DIR / "static_files"
 STATICFILES_DIRS = [
     BASE_DIR / "static"
 ]
