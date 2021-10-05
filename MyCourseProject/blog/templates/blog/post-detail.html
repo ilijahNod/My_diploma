@@ -51,7 +51,8 @@
   </div>
   <article>
     <img src="{{ post.image.url }}" alt="{{ post.title }}" />
-    <address>By <a href="mailto:{{ post.author.email_address }}">{{ post.author.full_name }}</a></address>
+    <address>By <a href="{% url 'author-page' post.author.user.username %}">{{ post.author.full_name }}</a></address>
+    <a href="mailto:{{ post.author.email_address }}">Write a letter</a>
     <div>Last updated on <time>{{ post.date|date:"d M Y" }}</time></div>
   </article>
 </section>
