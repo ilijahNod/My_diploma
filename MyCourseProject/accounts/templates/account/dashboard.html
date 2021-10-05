@@ -10,7 +10,8 @@
     <h1>Account</h1>
     
     <p>Welcome to your account info, {{ user.get_username }}.
-        Here you can see all your written posts:</p>
+        Here you can see all your written posts.</p>
+    <p>To edit your bio tap <a href="{% url "author_edit" author.pk %}">Here</a>
     <ul>
     {% for post in posts %}
       <li>

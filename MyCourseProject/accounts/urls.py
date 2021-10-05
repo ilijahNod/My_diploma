@@ -11,6 +11,7 @@ urlpatterns = [
     path(r'logout-then-login/', auth_views.logout_then_login,
          name='logout_then_login'),
     path(r'', views.dashboard, name='dashboard'),
+    path(r'edit_bio/<int:pk>', views.AuthorUpdateView.as_view(), name='author_edit'),
     path(r'password-change/', auth_views.PasswordChangeView.as_view(
         template_name='account/password_change_form.html'), name='password_change'),
     path(r'password-change/done/', auth_views.PasswordChangeDoneView.as_view(

@@ -45,12 +45,12 @@ def register(request):
 @login_required
 def dashboard(request):
     posts = Post.objects.filter(author=(Author.objects.get(user=request.user)))
-    #author= Author.objects.get(user=request.user)#
-    return render(request, 'account/dashboard.html', {'section': 'dashboard', 'posts': posts, })
+    author= Author.objects.get(user=request.user)
+    return render(request, 'account/dashboard.html', {'section': 'dashboard', 'posts': posts, 'author' : author })
 
 
-'''class AuthorUpdateView(UpdateView):
+class AuthorUpdateView(UpdateView):
     model = Author
     template_name = 'account/author_edit.html'
-    fields = ['bio', 'photo']
-    success_url = reverse_lazy('dashboard')'''
+    fields = ['bio']
+    success_url = reverse_lazy('dashboard')

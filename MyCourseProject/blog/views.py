@@ -5,6 +5,7 @@ from django.views.generic import ListView
 from django.views import View
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from .models import Post, Author, Genre
+from django.contrib.auth.models import User
 from .forms import CommentForm, PostCreateForm
 from django.utils.text import slugify
 from taggit.models import Tag
@@ -107,10 +108,10 @@ class ReadLaterView(View):
 
         request.session["stored_posts"] = stored_posts
 
-        return HttpResponseRedirect("stored_posts")
+        return HttpResponseRedirect("read-later")
 
 
-class BlogCreateView(CreateView):
+class PostCreateView(CreateView):
     model = Post
     template_name = 'blog/post_new.html'
     fields = ['image', 'title', 'excerpt', 'content', 'genre', 'tags']
@@ -126,13 +127,13 @@ class BlogCreateView(CreateView):
         return HttpResponseRedirect(reverse("dashboard"))
 
 
-class BlogUpdateView(UpdateView):
+class PostUpdateView(UpdateView):
     model = Post
     template_name = 'blog/post_edit.html'
     fields = ['excerpt', 'content', 'genre', 'tags']
 
 
-class BlogDeleteView(DeleteView):
+class PostDeleteView(DeleteView):
     model = Post
     template_name = 'blog/post_delete.html'
     success_url = reverse_lazy('dashboard')
@@ -172,3 +173,17 @@ class TagFilterView(ListView):
         return data
 
 
+class AuthorPageView(View):
+    
+    def get(self, request, user):
+        author_info = Author.objects.get(user=User.objects.get(username=user))
+        bio = author_info.bio
+        posts = Post.objects.filter(author=author_info)
+
+        context = {'bio': bio, 'posts': posts, 'author': author_info}
+
+        if bio is None or len(bio) == 0:
+            context["bio"] = 'Here should be authors info, but it seems he didnt write any =)'
+
+
+        return render(request, "blog/author_detail.html", context)

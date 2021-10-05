@@ -15,7 +15,6 @@ class Author(models.Model):
     user = models.OneToOneField(
         settings.AUTH_USER_MODEL, default='', on_delete=CASCADE)
     bio = models.TextField(max_length=500, blank=True)
-    photo = models.ImageField(upload_to='user_images', blank=True)
 
     @receiver(post_save, sender=User)
     def update_profile_signal(sender, instance, created, **kwargs):

@@ -1,0 +1,17 @@
+{% extends "base.html" %} 
+{% load static %} 
+
+
+{% block css_files %} 
+<link rel="stylesheet" href="{% static "blog/author-detail.css" %}" />
+{% endblock %} 
+
+{% block content %}
+<div class='author-bio'>
+<p><h>This is a {{ author.full_name }} author page.</h></p>
+<p>{{ bio }}</p></div>
+<div class='author-posts'>{% for post in posts %}
+      <li><a href="{% url "post-detail-page" post.slug %}">{{ post.title }}</a> published on {{ post.date }}</div></li>
+{% endfor %}
+</div>
+{% endblock %}
