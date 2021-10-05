@@ -1,0 +1,41 @@
+body {
+    background-color: #9cd7df;
+}
+
+#main-navigation {
+    background-color: #997beb;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+    position: fixed;
+}
+
+.author-bio {
+    margin: auto;
+    padding: 2rem;
+    width: auto;
+    max-width: 40rem;
+    position: relative;
+    top: 5rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+    height: auto;
+    transform-origin: center;
+    border-radius: 12px;
+    background-color: rgb(255, 255, 255);
+    color: rgb(0, 0, 0);
+    text-align: center;
+}
+
+.author-posts {
+    margin: auto;
+    padding: 2rem;
+    width: auto;
+    max-width: 40rem;
+    position: relative;
+    top: 5rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+    height: auto;
+    transform-origin: center;
+    border-radius: 12px;
+    background-color: rgb(109, 109, 109);
+    color: rgb(0, 0, 0);
+    text-align: center;
+}

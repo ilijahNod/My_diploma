@@ -1,0 +1,30 @@
+body {
+    background-color: #696161;
+  }
+  
+  #main-navigation {
+    background-color: #99999b;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+  }
+  
+  .login-form {
+    position: center;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    word-wrap: break-word;
+    background-color: #fff;
+    background-clip: border-box;
+    border: 0 solid rgba(0,0,0,.125);
+    border-radius: 1rem;
+  }
+
+  h1 {
+  color: rgb(250, 250, 250);
+  text-align: center;
+}
+
+
+
+
+

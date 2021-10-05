@@ -17,5 +17,6 @@ for author_num in range(number_of_entries):
     ab.save()'''
 
 for post_num in range(number_of_entries):
-    ab= Post.objects.create(title='Christian %s story' % post_num, excerpt='Thats a Christian %s story' % post_num, date=datetime.datetime.now(), slug='Christian-%s-story' % post_num, content=(' Thats a Christian %s story' % post_num) * 8, author=Author.objects.get(user=User.objects.get(username='Christian%s' % post_num)), genre=Genre.objects.get(genre='Drama'), tags='Fabulous, Great, fantastic', image= Image('1.jpg'))
+    ab= Post.objects.create(title='Christian %s story' % post_num, excerpt='Thats a Christian %s story' % post_num, date=datetime.datetime.now(), slug='Christian-%s-story' % post_num, content=(' Thats a Christian %s story' % post_num) * 8, author=Author.objects.get(user=User.objects.get(username='Christian%s' % post_num)), genre=Genre.objects.get(genre='Drama'), tags='Fabulous, great, fantastic')
     ab.save()
+    ab.image.save('12%.jpg' % post_num, File() )

@@ -1,0 +1,26 @@
+.button {
+    background-color: #3b5961; /* Green */
+    border: none;
+    color: rgb(73, 142, 163);
+    padding: 16px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    -webkit-transition-duration: 0.4s; /* Safari */
+    transition-duration: 0.4s;
+    cursor: pointer;
+    border-radius: 12px;
+  }
+
+  .button1 {
+    background-color: #3b5961; 
+    color: black; 
+    border: 4px solid #6361ff;
+}
+
+.button1:hover {
+    background-color: #36f4d4;
+    color: rgb(27, 21, 21);
+}
