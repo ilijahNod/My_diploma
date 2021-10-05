@@ -3,20 +3,27 @@ version: "3"
 services:
   db:
     image: postgres
+    restart: always
     ports:
     - "5432:5432"
     environment:
       - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=12345
-      - POSTGRES_DB=django_db
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=postgres
     volumes:
-      - ./data/postgres:/var/lib/postgresql/data
+      - database_data:/var/lib/postgresql/data
+  
   web:
     build: .
-    command: python manage.py runserver 0.0.0.0:8000
+    command: bash -c "python manage.py makemigrations && python manage.py migrate && python manage.py collectstatic --noinput && python manage.py runserver 0.0.0.0:8000"
     volumes:
       - .:/MyCourseProject
     ports:
       - "8000:8000"
     depends_on:
       - db
+
+volumes:
+  database_data:
+    driver: local
+
